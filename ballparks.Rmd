@@ -1,0 +1,82 @@
+---
+title: "Find a Major League Ballpark"
+author: "Andy Sullivan"
+date: "6/19/2020"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+mlb_ballparks <- data.frame(
+    lat = c(33.80029,33.89127,39.283944,42.346561,41.948314,41.829892,39.097213,41.496005,39.756175,42.339063,
+            29.757041,39.051604,34.073878,25.778165,43.028232,44.981749,40.757134,40.829586,37.751619,39.906109,
+            33.44542,40.446835,32.70753,47.591443,37.778324,38.622622,27.768254,32.7511,43.641256,38.872987),
+    long = c(-117.882685,-84.4681,-76.621572,-71.097337,-87.655397,-87.633703,-84.506483,-81.685326,-104.99413,
+             -83.048627,-95.355429,-94.480149,-118.239951,-80.219541,-87.970966,-93.278026,-73.84584,-73.926413,
+             -122.200451,-75.166485,-112.066793,-80.005683,-117.157056,-122.332283,-122.389221,-90.192841,
+             -82.653431,-97.0832,-79.389054,-77.007435),
+    league = c('AL','NL','AL','AL','NL','AL','NL','AL','NL','AL','AL','AL','NL','NL','NL','AL','NL','AL','AL',
+               'NL','NL','NL','NL','AL','NL','NL','AL','AL','AL','NL'),
+    division = c('West','East','East','East','Central',
+                 'Central','Central','Central','West','Central',
+                 'West','Central','West','East','Central',
+                 'Central','East','East','West','East',
+                 'West','Central','West','West',
+                 'West','Central','East','West','East','East'),
+    team = c('Anaheim Angels','Atlanta Braves','Baltimore Orioles','Boston Red Sox','Chicago Cubs',
+             'Chicago White Sox','Cincinnati Reds','Cleveland Indians','Colorado Rockies','Detroit Tigers',
+             'Houston Astros','Kansas City Royals','Los Angeles Dodgers','Miami Marlins','Milwaukee Brewers',
+             'Minnesota Twins','New York Mets','New York Yankees','Oakland As','Philadelphia Phillies',
+             'Arizona Diamondbacks','Pittsburgh Pirates','San Diego Padres','Seattle Mariners',
+             'San Francisco Giants','St Louis Cardinals','Tampa Rays','Texas Rangers','Toronto Blue Jays',
+             'Washington Nationals'),
+    info = c('Angel Stadium of Anaheim','SunTrust Park','Oriole Park at Camden Yards','Fenway Park','Wrigley Field',
+             'Guarantee Rate Park','Great American Ballpark','Progressive Field','Coors Field','Comerica Park','Minute Maid Park',
+             'Kauffman Stadium','Dodger Stadium','Marlins Park','Miller Park','Target Field','Citi Field',
+             'New Yankee Stadium','Oakland-Alameda County Coliseum','Citizens Bank Park','Chase Field','PNC Park',
+             'Petco Park','T-Mobile Park','Oracle Park','Busch Stadium','Tropicana Field','Globe Life Park',
+             'Rogers Centre','Nationals Park'))
+
+library(shiny)
+library(leaflet)
+```
+
+## Find a Major League Ball Park
+
+Baseball is considered the United States' National Past Time.  During the summer months, many fans of Baseball will travel to many games across the nation.
+
+This application was created to help those travelers find Major League Ballparks.  Application users can select a League or Division to limit their search
+
+## Left Side of Screen
+
+The left side of the screen shows two pull downs to help the user refine their search
+
+- League - There are 3 selections; Both for both leagues, AL for the American League, and NL for the National League
+- Division  - There are 4 selections: All for all divisions, East for East Division, Central for Central Division and West for West Division
+
+## Main Section of the Screen
+
+The Main Section shows the results based on the refined search.  The user will see 2 outputs
+
+- A Map that shows all the Major League Ballparks Selected
+- A Data table that gives more information about each Major League Ballpark Selected
+
+## Displaying the Ballparks
+
+This is an example of the code used to generate the map
+
+```{r diaplay, echo = TRUE, message=FALSE}
+mlb_ballparks %>% 
+  leaflet(height=300, width=600) %>%
+  addTiles() %>%
+  addMarkers(clusterOptions = markerClusterOptions(),
+             label = paste(mlb_ballparks$team,',',mlb_ballparks$info))
+```
+
+## For more Information
+
+Please visit the application at <https://unrivalledswan.shinyapps.io/ballparks/>
+
+The github repository can be viewed at <https://github.com/UnrivalledSwan/Developing-Data-Products-Week4-Project>
+
